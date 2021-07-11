@@ -27,3 +27,7 @@
 .button-text {
   @apply m-auto text-sm tracking-wide md:text-base text-center;
 }
+
+.button-upload {
+  @apply flex cursor-pointer px-4 bg-gray-100 py-2 rounded-md items-center space-x-3 align-baseline justify-center hover:bg-gray-100 hover:shadow;
+}

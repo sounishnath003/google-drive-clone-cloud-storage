@@ -1,7 +1,17 @@
 import Error from "./Alert/Error";
-import Sucess from "./Alert/Sucess";
+import Success from "./Alert/Sucess";
 import AuthHome from "./Auth/AuthHome";
+import AddFolderButton from "./Buttons/AddFolderButton";
 import Container from "./Container";
+import Dashboard from "./Dashboard";
 import Header from "./Header";
 
-export { Header, AuthHome, Container, Error, Sucess };
+export {
+  Header,
+  AuthHome,
+  Container,
+  Error,
+  Success,
+  Dashboard,
+  AddFolderButton,
+};

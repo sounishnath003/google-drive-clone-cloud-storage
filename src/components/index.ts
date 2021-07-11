@@ -5,6 +5,7 @@ import AddFolderButton from "./Buttons/AddFolderButton";
 import Container from "./Container";
 import Dashboard from "./Dashboard";
 import Header from "./Header";
+import Modal from "./Modal";
 
 export {
   Header,
@@ -14,4 +15,5 @@ export {
   Success,
   Dashboard,
   AddFolderButton,
+  Modal,
 };

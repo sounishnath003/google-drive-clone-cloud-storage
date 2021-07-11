@@ -1,16 +1,19 @@
 import React from "react";
+import { useAuth } from "../../context/auth.context";
 
 interface AuthPayloadInterface {
-  username: string;
+  email: string;
   password: string;
 }
 
 const AuthHome: React.FC = () => {
+  const { signUpWithRedirect } = useAuth();
+
   const [showPassword, setShowPassword] = React.useState(false);
   const [isSignupPressed, setSignupPressed] = React.useState(false);
 
   const [payload, setPayload] = React.useState<AuthPayloadInterface>({
-    username: "",
+    email: "",
     password: "",
   });
 
@@ -43,14 +46,14 @@ const AuthHome: React.FC = () => {
               </label>
               <input
                 onChange={handleOnChage}
-                value={payload.username}
-                id="username"
-                name="username"
-                type="username"
-                autoComplete="username"
+                value={payload.email}
+                id="email"
+                name="email"
+                type="email"
+                autoComplete="email"
                 required
                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                placeholder="Username"
+                placeholder="Email: flock.sinasini@gmail.com"
               />
             </div>
             <div>
@@ -87,7 +90,7 @@ const AuthHome: React.FC = () => {
             </div>
           ) : (
             <div
-              onClick={() => console.log(payload)}
+              onClick={() => signUpWithRedirect(payload)}
               className="button-red-block"
             >
               <div className="button-text">Register &rarr; </div>

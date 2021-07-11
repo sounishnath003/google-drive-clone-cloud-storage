@@ -9,6 +9,14 @@
 @tailwind components;
 @tailwind utilities;
 
+.error {
+  @apply py-2 pl-4 bg-red-50 text-red-500 font-medium text-center ease-in;
+}
+
+.success {
+  @apply py-2 pl-4 bg-green-50 text-green-700 font-medium text-center ease-in;
+}
+
 .button-indigo-block {
   @apply text-xl  items-center content-center font-thin m-auto px-6 py-2 rounded cursor-pointer border  bg-indigo-600 hover:bg-indigo-700 text-white hover:shadow-xl;
 }

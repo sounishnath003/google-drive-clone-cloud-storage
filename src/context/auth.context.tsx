@@ -3,7 +3,19 @@ import React from "react";
 import { Error as ERROR, Sucess } from "../components";
 import { auth } from "../firebase";
 
-const AuthContext = React.createContext({});
+interface AuthContextInterface {
+  currentUser: firebase.User | null;
+  signUpWithRedirect: (payload: {
+    email: string;
+    password: string;
+  }) => Promise<void>;
+}
+
+const AuthContext = React.createContext<AuthContextInterface>({
+  currentUser: null,
+  signUpWithRedirect: () =>
+    Promise.reject(new Error("Email and password are required")),
+});
 
 export function useAuth() {
   return React.useContext(AuthContext);

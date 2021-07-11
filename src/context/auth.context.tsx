@@ -35,7 +35,7 @@ const AuthProvider: React.FC<AuthProps> = ({ children }: AuthProps) => {
         payload.email,
         payload.password
       );
-      setSucess("You are now logged in!");
+      setSucess(`Welcome, ${payload.email}! You are logged in!`);
       dismiss(() => setSucess(null), 3);
     } catch (error) {
       setError(
@@ -56,6 +56,10 @@ const AuthProvider: React.FC<AuthProps> = ({ children }: AuthProps) => {
         setCurrentUser(user);
       }
     );
+    if (currentUser !== null) {
+      setSucess(`Welcome, ${currentUser.email}! You are logged in!`);
+      dismiss(() => setSucess(null), 3);
+    }
 
     return () => unsubscribe();
   }, []);

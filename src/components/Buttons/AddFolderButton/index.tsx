@@ -4,7 +4,7 @@ import { FolderPlusIcon } from "../../../Assets/Icons";
 import Modal from "../../Modal";
 
 interface AddFolderButtonProps {
-  currentFolder: firebase.firestore.DocumentSnapshot;
+  currentFolder: firebase.firestore.DocumentSnapshot | null;
 }
 
 const AddFolderButton: React.FC<AddFolderButtonProps> = ({

@@ -11,7 +11,7 @@ interface ModalProps {
   title: string;
   shortDesc: string;
   type: ModalType;
-  currentFolder: firebase.firestore.DocumentSnapshot;
+  currentFolder: firebase.firestore.DocumentSnapshot | null;
 }
 
 const Modal: React.FC<ModalProps> = ({

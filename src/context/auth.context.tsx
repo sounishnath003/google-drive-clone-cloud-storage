@@ -23,7 +23,7 @@ const AuthContext = React.createContext<AuthContextInterface>({
     Promise.reject(new Error("Email and password are required!")),
 });
 
-export function useAuth() {
+export function useAuth(): AuthContextInterface {
   return React.useContext(AuthContext);
 }
 

@@ -15,7 +15,22 @@ const Modal: React.FC<ModalProps> = ({
   title,
   shortDesc,
   type,
-}: ModalProps) => {
+}: ModalProps): JSX.Element => {
+  const [inputValue, setInputValue] = React.useState<string | undefined>();
+  const [error, setError] = React.useState<string>("");
+
+  async function onCreate(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+    e.preventDefault();
+    setError("");
+    try {
+      // check if inputValue is empty
+      isInputValueIsEmptyThrowError(inputValue, type);
+      // create folder in firebase
+    } catch (error) {
+      setError(error.message || "Error creating folder");
+    }
+  }
+
   return (
     <React.Fragment>
       <div
@@ -56,9 +71,17 @@ const Modal: React.FC<ModalProps> = ({
                   <div className="my-4 w-auto">
                     <input
                       type="text"
+                      value={inputValue}
+                      onChange={(e) => setInputValue(e.target.value)}
                       className="modal-input-box"
                       placeholder="Memories 2k21"
                     />
+                    {error && (
+                      <div className="tracking-wide leading-none text-red-500 text-xs my-2 px-2">
+                        {" "}
+                        * {error}{" "}
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
@@ -66,7 +89,11 @@ const Modal: React.FC<ModalProps> = ({
 
             {/* footer buttons */}
             <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-              <button type="button" className="button-indigo">
+              <button
+                onClick={onCreate}
+                type="button"
+                className="button-indigo"
+              >
                 {type === "ADD_FOLDER" ? "Create folder" : "Create file"}
               </button>
               <button
@@ -86,3 +113,13 @@ const Modal: React.FC<ModalProps> = ({
 };
 
 export default Modal;
+function isInputValueIsEmptyThrowError(
+  inputValue: string | undefined,
+  type: string
+) {
+  if (inputValue === undefined) {
+    throw new Error(
+      `${type === "ADD_FOLDER" ? "Folder" : "File"} name cannot be blank!`
+    );
+  }
+}

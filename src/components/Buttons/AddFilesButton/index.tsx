@@ -9,9 +9,7 @@ const AddFilesButton: React.FC = () => {
       {showModal && (
         <Modal
           title={"Upload file"}
-          shortDesc={
-            "Are you sure you want to deactivate your account? All of your data will be permanently removed. This action cannot be undone."
-          }
+          shortDesc={"Please enter the name of the file you want to create."}
           type={"ADD_FILE"}
           modalShowFunc={setModal}
         />

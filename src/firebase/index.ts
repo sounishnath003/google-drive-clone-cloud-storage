@@ -1,6 +1,11 @@
 import firebase from "firebase";
 import "firebase/auth";
 
+interface DataBaseInterface {
+  folders: firebase.firestore.CollectionReference<firebase.firestore.DocumentData>;
+  files: firebase.firestore.CollectionReference<firebase.firestore.DocumentData>;
+}
+
 const app = firebase.initializeApp({
   apiKey: "AIzaSyAqg9__l_hcJQKCOqA5Wy4lilhSeRyXD08",
   authDomain: "drive-clone-f7f7c.firebaseapp.com",
@@ -19,6 +24,14 @@ const app = firebase.initializeApp({
   // measurementId: import.meta.env.VITE_APP_FIREBASE_MEASUREMENT_ID,
 });
 
-export const auth = app.auth();
+export const auth: firebase.auth.Auth = app.auth();
+
+// export const database = app.database();
+const firestore: firebase.firestore.Firestore = app.firestore();
+
+export const database: DataBaseInterface = {
+  folders: firestore.collection("folders"),
+  files: firestore.collection("files"),
+};
 
 export default app;

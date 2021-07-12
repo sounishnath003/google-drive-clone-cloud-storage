@@ -1,5 +1,7 @@
+import firebase from "firebase";
 import React from "react";
 import { AlertIcon } from "../../Assets/Icons";
+import { database } from "../../firebase";
 
 type ModalType = "ADD_FOLDER" | "ADD_FILE";
 
@@ -25,10 +27,32 @@ const Modal: React.FC<ModalProps> = ({
     try {
       // check if inputValue is empty
       isInputValueIsEmptyThrowError(inputValue, type);
-      // create folder in firebase
+
+      // determine which action.type to call
+      if (type === "ADD_FOLDER") {
+        await onCreateFolder();
+        setInputValue(undefined);
+        modalShowFunc(false);
+      }
     } catch (error) {
       setError(error.message || "Error creating folder");
     }
+  }
+
+  async function onCreateFolder(): Promise<
+    | Promise<
+        firebase.firestore.DocumentReference<firebase.firestore.DocumentData>
+      >
+    | Error
+  > {
+    return new Promise((resolve, reject) => {
+      try {
+        const onSuccess = database.folders.add({ name: inputValue });
+        resolve(onSuccess);
+      } catch (e) {
+        reject(e);
+      }
+    });
   }
 
   return (
@@ -117,9 +141,13 @@ function isInputValueIsEmptyThrowError(
   inputValue: string | undefined,
   type: string
 ) {
-  if (inputValue === undefined) {
+  const isEmpty: boolean = inputValue === undefined || inputValue.length < 1;
+  const isPatternIncorrect: boolean = /[^a-zA-Z0-9-]/.test(inputValue as string);
+  if (isEmpty) {
     throw new Error(
       `${type === "ADD_FOLDER" ? "Folder" : "File"} name cannot be blank!`
     );
+  } else if (isPatternIncorrect) {
+    throw new Error("It should not contains any special symbols!");
   }
 }

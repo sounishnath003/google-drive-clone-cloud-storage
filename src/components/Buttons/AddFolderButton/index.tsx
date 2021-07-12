@@ -10,9 +10,7 @@ const AddFolderButton: React.FC = () => {
       {showModal && (
         <Modal
           title={"Upload folder"}
-          shortDesc={
-            "Please enter the name of the folder you want to create."
-          }
+          shortDesc={"Please enter the name of the folder you want to create."}
           type={"ADD_FOLDER"}
           modalShowFunc={setModal}
         />

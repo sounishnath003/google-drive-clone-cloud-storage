@@ -13,4 +13,3 @@ const Error: React.FC<ErrorProps> = ({ error }: ErrorProps) => {
 };
 
 export default Error;
-    

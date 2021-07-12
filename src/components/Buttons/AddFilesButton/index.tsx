@@ -3,9 +3,20 @@ import { FileTextIcon } from "../../../Assets/Icons";
 import Modal from "../../Modal";
 
 const AddFilesButton: React.FC = () => {
+  const [showModal, setModal] = React.useState(false);
   return (
-    <>
-      <div onClick={() => alert("kdl")} className="button-upload">
+    <React.Fragment>
+      {showModal && (
+        <Modal
+          title={"Upload file"}
+          shortDesc={
+            "Are you sure you want to deactivate your account? All of your data will be permanently removed. This action cannot be undone."
+          }
+          type={"ADD_FILE"}
+          modalShowFunc={setModal}
+        />
+      )}
+      <div onClick={() => setModal(true)} className="button-upload">
         <div className="m-auto">
           {" "}
           <FileTextIcon color="blue" size={22} />{" "}
@@ -14,9 +25,7 @@ const AddFilesButton: React.FC = () => {
           Add Files
         </div>
       </div>
-
-      <Modal/>
-    </>
+    </React.Fragment>
   );
 };
 

@@ -1,7 +1,21 @@
 import React from "react";
 import { AlertIcon } from "../../Assets/Icons";
 
-const Modal: React.FC = () => {
+type ModalType = "ADD_FOLDER" | "ADD_FILE";
+
+interface ModalProps {
+  modalShowFunc: (status: boolean) => void;
+  title: string;
+  shortDesc: string;
+  type: ModalType;
+}
+
+const Modal: React.FC<ModalProps> = ({
+  modalShowFunc,
+  title,
+  shortDesc,
+  type,
+}: ModalProps) => {
   return (
     <React.Fragment>
       <div
@@ -34,14 +48,10 @@ const Modal: React.FC = () => {
                     className="text-lg leading-6 font-medium text-gray-900"
                     id="modal-title"
                   >
-                    Deactivate account
+                    {title}
                   </h3>
                   <div className="mt-2">
-                    <p className="text-sm text-gray-500">
-                      Are you sure you want to deactivate your account? All of
-                      your data will be permanently removed. This action cannot
-                      be undone.
-                    </p>
+                    <p className="text-sm text-gray-500">{shortDesc}</p>
                   </div>
                 </div>
               </div>
@@ -50,7 +60,11 @@ const Modal: React.FC = () => {
               <button type="button" className="button-alert">
                 Deactivate
               </button>
-              <button type="button" className="button-normal">
+              <button
+                onClick={() => modalShowFunc(false)}
+                type="button"
+                className="button-normal"
+              >
                 Cancel
               </button>
             </div>

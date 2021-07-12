@@ -4,6 +4,7 @@ import "firebase/auth";
 interface DataBaseInterface {
   folders: firebase.firestore.CollectionReference<firebase.firestore.DocumentData>;
   files: firebase.firestore.CollectionReference<firebase.firestore.DocumentData>;
+  getCurrentTimestamp: () => firebase.firestore.FieldValue;
 }
 
 const app = firebase.initializeApp({
@@ -32,6 +33,7 @@ const firestore: firebase.firestore.Firestore = app.firestore();
 export const database: DataBaseInterface = {
   folders: firestore.collection("folders"),
   files: firestore.collection("files"),
+  getCurrentTimestamp: firebase.firestore.FieldValue.serverTimestamp,
 };
 
 export default app;

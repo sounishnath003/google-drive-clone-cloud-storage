@@ -1,6 +1,7 @@
 import firebase from "firebase";
 import React from "react";
 import { AlertIcon } from "../../Assets/Icons";
+import { useAuth } from "../../context/auth.context";
 import { database } from "../../firebase";
 
 type ModalType = "ADD_FOLDER" | "ADD_FILE";
@@ -10,6 +11,7 @@ interface ModalProps {
   title: string;
   shortDesc: string;
   type: ModalType;
+  currentFolder: firebase.firestore.DocumentSnapshot;
 }
 
 const Modal: React.FC<ModalProps> = ({
@@ -17,9 +19,12 @@ const Modal: React.FC<ModalProps> = ({
   title,
   shortDesc,
   type,
+  currentFolder,
 }: ModalProps): JSX.Element => {
   const [inputValue, setInputValue] = React.useState<string | undefined>();
   const [error, setError] = React.useState<string>("");
+
+  const { currentUser } = useAuth();
 
   async function onCreate(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     e.preventDefault();
@@ -27,6 +32,8 @@ const Modal: React.FC<ModalProps> = ({
     try {
       // check if inputValue is empty
       isInputValueIsEmptyThrowError(inputValue, type);
+
+      if (currentFolder === null) return;
 
       // determine which action.type to call
       if (type === "ADD_FOLDER") {
@@ -47,7 +54,13 @@ const Modal: React.FC<ModalProps> = ({
   > {
     return new Promise((resolve, reject) => {
       try {
-        const onSuccess = database.folders.add({ name: inputValue });
+        const onSuccess = database.folders.add({
+          name: inputValue,
+          parentId: currentFolder.id,
+          userId: currentUser?.uid,
+          // path,
+          createdAt: database.getCurrentTimestamp(),
+        });
         resolve(onSuccess);
       } catch (e) {
         reject(e);
@@ -142,7 +155,9 @@ function isInputValueIsEmptyThrowError(
   type: string
 ) {
   const isEmpty: boolean = inputValue === undefined || inputValue.length < 1;
-  const isPatternIncorrect: boolean = /[^a-zA-Z0-9-]/.test(inputValue as string);
+  const isPatternIncorrect: boolean = /[^a-zA-Z0-9-]/.test(
+    inputValue as string
+  );
   if (isEmpty) {
     throw new Error(
       `${type === "ADD_FOLDER" ? "Folder" : "File"} name cannot be blank!`

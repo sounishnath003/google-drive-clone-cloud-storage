@@ -1,8 +1,15 @@
+import firebase from "firebase";
 import React from "react";
 import { FolderPlusIcon } from "../../../Assets/Icons";
 import Modal from "../../Modal";
 
-const AddFolderButton: React.FC = () => {
+interface AddFolderButtonProps {
+  currentFolder: firebase.firestore.DocumentSnapshot;
+}
+
+const AddFolderButton: React.FC<AddFolderButtonProps> = ({
+  currentFolder,
+}: AddFolderButtonProps): JSX.Element => {
   const [showModal, setModal] = React.useState(false);
 
   return (
@@ -13,6 +20,7 @@ const AddFolderButton: React.FC = () => {
           shortDesc={"Please enter the name of the folder you want to create."}
           type={"ADD_FOLDER"}
           modalShowFunc={setModal}
+          currentFolder={currentFolder}
         />
       )}
       <div onClick={() => setModal(true)} className="button-upload">

@@ -48,7 +48,7 @@ export const FileTextIcon = ({
 
 export const AlertIcon = (): JSX.Element => (
   <svg
-    className="h-6 w-6 text-red-600"
+    className="h-6 w-6 text-indigo-600"
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
     viewBox="0 0 24 24"

@@ -7,7 +7,7 @@ const Dashboard: React.FC = () => {
   if (currentUser === null) return <>Loading...</>;
   return (
     <React.Fragment>
-      <div>Hello, {currentUser.email}!</div>
+      <div className='text-gray-600 text-sm'>Hello, {currentUser.email}!</div>
 
       <div className="my-8">
         <div className="flex space-x-3 flex-row items-center items-md-auto items-lg-auto">

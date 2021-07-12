@@ -11,7 +11,7 @@ const AddFolderButton: React.FC = () => {
         <Modal
           title={"Upload folder"}
           shortDesc={
-            "Are you sure you want to deactivate your account? All of your data will be permanently removed. This action cannot be undone."
+            "Please enter the name of the folder you want to create."
           }
           type={"ADD_FOLDER"}
           modalShowFunc={setModal}

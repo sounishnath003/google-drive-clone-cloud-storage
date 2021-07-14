@@ -1,18 +1,17 @@
 import firebase from "firebase";
 import React from "react";
 import { FolderPlusIcon } from "../../../Assets/Icons";
+import { FolderType } from "../../../hooks/useFolder.hook";
 import Modal from "../../Modal";
 
 interface AddFolderButtonProps {
-  currentFolder: firebase.firestore.DocumentSnapshot | null | undefined;
+  currentFolder: FolderType<firebase.firestore.DocumentData> | null | undefined;
 }
 
 const AddFolderButton: React.FC<AddFolderButtonProps> = ({
   currentFolder,
 }: AddFolderButtonProps): JSX.Element => {
   const [showModal, setModal] = React.useState(false);
-  console.log(currentFolder);
-  
 
   return (
     <React.Fragment>

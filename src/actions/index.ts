@@ -6,4 +6,5 @@ export interface ActionType {
 export const Action = {
   SELECT_FOLDER: "SELECT_FOLDER",
   UPDATE_FOLDER: "UPDATE_FOLDER",
+  SET_CHILD_FOLDERS: "SET_CHILD_FOLDERS",
 };

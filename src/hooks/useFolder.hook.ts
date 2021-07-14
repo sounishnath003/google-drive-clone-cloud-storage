@@ -1,6 +1,7 @@
 import firebase from "firebase";
 import React from "react";
 import { Action, ActionType } from "../actions";
+import { useAuth } from "../context/auth.context";
 import { database } from "../firebase";
 
 /* Note:
@@ -8,13 +9,15 @@ import { database } from "../firebase";
  *  The state object is passed as a parameter to the component.
  */
 
+export type FolderType<T> = firebase.firestore.DocumentSnapshot<T>;
+
 interface BaseFolderProps {
   folderId?: string | null;
-  folder?: firebase.firestore.DocumentSnapshot | null;
+  folder?: FolderType<firebase.firestore.DocumentData> | null;
 }
 
 interface FolderState extends BaseFolderProps {
-  childFolders: string[];
+  childFolders: FolderType<firebase.firestore.DocumentData>[];
   childFiles: string[];
 }
 
@@ -43,6 +46,14 @@ function reducer(state: FolderState, action: ActionType): FolderState {
         folder: action.payload.folder,
       };
 
+    case Action.SET_CHILD_FOLDERS:
+      console.log(action.payload);
+
+      return {
+        ...state,
+        childFolders: action.payload.childFolders,
+      };
+
     default:
       return state;
   }
@@ -57,6 +68,9 @@ export function useFolder({ folderId, folder }: BaseFolderProps): FolderState {
     childFolders: [],
     childFiles: [],
   });
+
+  // get authenticated user from firebase and add it to state
+  const { currentUser } = useAuth();
 
   // global state re-render when both folderId and folder has any major update
   // tree shaking will remove the unused props
@@ -90,6 +104,24 @@ export function useFolder({ folderId, folder }: BaseFolderProps): FolderState {
         } as ActionType);
       });
   }, [folderId]);
+
+  React.useEffect(() => {
+    const onCleanup = database.folders
+      .where("parentId", "==", folderId)
+      .where("userId", "==", currentUser?.uid)
+      .onSnapshot(
+        (
+          snapShot: firebase.firestore.QuerySnapshot<firebase.firestore.DocumentData>
+        ) => {
+          dispatch({
+            type: Action.SET_CHILD_FOLDERS,
+            payload: { childFolders: snapShot.docs.map(database.formatDoc) },
+          } as ActionType);
+        }
+      );
+
+    return () => onCleanup(); // return the onClean function to be called on unmount
+  }, [folderId, currentUser]);
 
   return state;
 }

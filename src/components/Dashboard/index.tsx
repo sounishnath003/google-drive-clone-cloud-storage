@@ -1,12 +1,15 @@
+import firebase from "firebase";
 import React from "react";
 import { useAuth } from "../../context/auth.context";
-import { useFolder } from "../../hooks/useFolder.hook";
+import { FolderType, useFolder } from "../../hooks/useFolder.hook";
 import { AddFilesButton, AddFolderButton } from "../Buttons";
+import Folder from "../Folder";
 
 const Dashboard: React.FC = () => {
   const { currentUser } = useAuth();
   const state = useFolder({ folderId: "iOW7eCrLkpLsjJFnK4Rk" });
-  console.log(state);
+
+  console.log(state.childFolders);
 
   if (currentUser === null) return <>Loading...</>;
   return (
@@ -26,6 +29,21 @@ const Dashboard: React.FC = () => {
             <AddFilesButton />{" "}
           </div>
         </div>
+
+        {/* render out folders */}
+        {state.folder && <Folder folder={state.folder} />}
+        {state.childFolders.length > 0 && (
+          <div className="my-8">
+            <div className="flex items-center items-md-auto items-lg-auto">
+              {state.childFolders.map(
+                (folder: FolderType<firebase.firestore.DocumentData>) => (
+                  <Folder folder={folder} key={folder.id} />
+                )
+              )}
+            </div>
+          </div>
+        )}
+        {/* render out folders end */}
       </div>
     </React.Fragment>
   );

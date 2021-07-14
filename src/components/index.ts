@@ -4,6 +4,7 @@ import AuthHome from "./Auth/AuthHome";
 import AddFolderButton from "./Buttons/AddFolderButton";
 import Container from "./Container";
 import Dashboard from "./Dashboard";
+import Folder from "./Folder";
 import Header from "./Header";
 import Modal from "./Modal";
 
@@ -16,4 +17,5 @@ export {
   Dashboard,
   AddFolderButton,
   Modal,
+  Folder,
 };

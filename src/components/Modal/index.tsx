@@ -3,6 +3,7 @@ import React from "react";
 import { InfoIcon } from "../../Assets/Icons";
 import { useAuth } from "../../context/auth.context";
 import { database } from "../../firebase";
+import { FolderType } from "../../hooks/useFolder.hook";
 
 type ModalType = "ADD_FOLDER" | "ADD_FILE";
 
@@ -11,7 +12,7 @@ interface ModalProps {
   title: string;
   shortDesc: string;
   type: ModalType;
-  currentFolder: firebase.firestore.DocumentSnapshot | null | undefined;
+  currentFolder: FolderType<firebase.firestore.DocumentData> | null | undefined;
 }
 
 const Modal: React.FC<ModalProps> = ({

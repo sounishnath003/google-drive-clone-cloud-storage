@@ -1,11 +1,22 @@
 import React from "react";
 import "./App.css";
-import { Header } from "./components";
+import { AuthHome, Container, Header } from "./components";
+import { useAuth } from "./context/auth.context";
+import PrivateRoutes from "./PrivateRoutes";
 
-function App() {
+function App(): JSX.Element {
+  const { currentUser } = useAuth();
+
+  React.useEffect(() => {
+    console.log("App re-initialized!");
+  }, [currentUser]);
+
   return (
     <div className="App p-2 bg-gray-50 h-screen">
-      <Header />
+      <Container>
+        <Header />
+        {currentUser === null ? <AuthHome /> : <PrivateRoutes />}
+      </Container>
     </div>
   );
 }

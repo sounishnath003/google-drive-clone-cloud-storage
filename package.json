@@ -7,8 +7,12 @@
     "serve": "vite preview"
   },
   "dependencies": {
+    "@types/firebase": "^3.2.1",
+    "@types/react-router-dom": "^5.1.8",
+    "firebase": "^8.7.1",
     "react": "^17.0.0",
-    "react-dom": "^17.0.0"
+    "react-dom": "^17.0.0",
+    "react-router-dom": "^5.2.0"
   },
   "devDependencies": {
     "@types/react": "^17.0.0",

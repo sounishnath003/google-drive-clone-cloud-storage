@@ -1,5 +1,6 @@
 import firebase from "firebase";
 import React from "react";
+import { Link } from "react-router-dom";
 import { FolderIcon } from "../../Assets/Icons";
 
 interface FolderProps {
@@ -9,7 +10,7 @@ interface FolderProps {
 const Folder = ({ folder }: FolderProps): JSX.Element => {
   return (
     <React.Fragment>
-      <div className="button-upload">
+      <Link to={`/folder/${folder.id}`} className="button-upload">
         <div className="px-2 w-30 space-x-2 hover:text-indigo-600 rounded py-2 flex flex-row justify-between items-center">
           <div className="m-auto">
             {" "}
@@ -17,7 +18,7 @@ const Folder = ({ folder }: FolderProps): JSX.Element => {
           </div>
           <div className="m-auto truncate"> {folder.name} </div>
         </div>
-      </div>
+      </Link>
     </React.Fragment>
   );
 };

@@ -11,13 +11,13 @@ interface DataBaseInterface {
 }
 
 const app = firebase.initializeApp({
-  apiKey: "AIzaSyAqg9__l_hcJQKCOqA5Wy4lilhSeRyXD08",
-  authDomain: "drive-clone-f7f7c.firebaseapp.com",
-  projectId: "drive-clone-f7f7c",
-  storageBucket: "drive-clone-f7f7c.appspot.com",
-  messagingSenderId: "552806962962",
-  appId: "1:552806962962:web:1c66cd3d7fc2f04832c5cb",
-  measurementId: "G-11G6C97EXK",
+  apiKey: "AIzaSyDX_vplfkuDUXyqXyw6S05Uj3zg4yt7Sro",
+  authDomain: "drive-clone-e2e65.firebaseapp.com",
+  projectId: "drive-clone-e2e65",
+  storageBucket: "drive-clone-e2e65.appspot.com",
+  messagingSenderId: "923946019272",
+  appId: "1:923946019272:web:38b1b363088150f152f8fd",
+  measurementId: "G-7ENWMN3RRH",
 
   // apiKey: import.meta.env.VITE_APP_FIREBASE_API_KEY,
   // authDomain: import.meta.env.VITE_APP_FIREBASE_AUTH_DOMAIN,

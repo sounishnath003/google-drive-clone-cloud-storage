@@ -1,13 +1,21 @@
 import firebase from "firebase";
 import React from "react";
+import { useParams } from "react-router-dom";
 import { useAuth } from "../../context/auth.context";
 import { FolderType, useFolder } from "../../hooks/useFolder.hook";
 import { AddFilesButton, AddFolderButton } from "../Buttons";
 import Folder from "../Folder";
 
 const Dashboard: React.FC = () => {
+  // get param from url
+  const param = useParams() as { folderId: string };
+  // get currentuser
   const { currentUser } = useAuth();
-  const state = useFolder({ folderId: "iOW7eCrLkpLsjJFnK4Rk" });
+
+  // get folder from useFolder hook state
+  const state = useFolder({
+    folderId: param.folderId || null,
+  });
 
   if (currentUser === null || state == null) return <>Loading...</>;
   return (
@@ -29,7 +37,7 @@ const Dashboard: React.FC = () => {
         </div>
 
         {/* render out folders */}
-        {state.folder && <> {state.folder.name} </>}
+        {state.folder && <> {(state.folder as any).name} </>}
         {state.childFolders.length > 0 && (
           <div className="my-8 text-gray-700">
             <div className="flex items-center space-x-4 items-md-auto items-lg-auto">

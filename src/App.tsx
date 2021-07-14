@@ -1,7 +1,8 @@
 import React from "react";
 import "./App.css";
-import { AuthHome, Container, Dashboard, Header } from "./components";
+import { AuthHome, Container, Header } from "./components";
 import { useAuth } from "./context/auth.context";
+import PrivateRoutes from "./PrivateRoutes";
 
 function App(): JSX.Element {
   const { currentUser } = useAuth();
@@ -14,7 +15,7 @@ function App(): JSX.Element {
     <div className="App p-2 bg-gray-50 h-screen">
       <Container>
         <Header />
-        {currentUser === null ? <AuthHome /> : <Dashboard />}
+        {currentUser === null ? <AuthHome /> : <PrivateRoutes />}
       </Container>
     </div>
   );

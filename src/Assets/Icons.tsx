@@ -82,3 +82,20 @@ export const InfoIcon = (): JSX.Element => (
     <line x1="12" y1="8" x2="12.01" y2="8"></line>
   </svg>
 );
+
+export const FolderIcon = ({
+  size = 24,
+  color = "#000000",
+}: IconsProps): JSX.Element => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    className="h-5 w-5"
+    width={size}
+    height={size}
+    stroke={color}
+    viewBox="0 0 20 20"
+    fill="currentColor"
+  >
+    <path d="M2 6a2 2 0 012-2h5l2 2h5a2 2 0 012 2v6a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" />
+  </svg>
+);

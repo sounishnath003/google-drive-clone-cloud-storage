@@ -79,6 +79,7 @@ export function useFolder({ folderId, folder }: BaseFolderProps): FolderState {
   }, [folderId, folder]);
 
   // it will help to update state on each folder change / modified
+  // responsible for Setting Root folder into state
   React.useEffect(() => {
     // check if root folder
     if (folderId == null) {
@@ -105,6 +106,7 @@ export function useFolder({ folderId, folder }: BaseFolderProps): FolderState {
       });
   }, [folderId]);
 
+  // responsible for setting child folders correctly!
   React.useEffect(() => {
     const onCleanup = database.folders
       .where("parentId", "==", folderId)

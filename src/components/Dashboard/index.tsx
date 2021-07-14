@@ -1,10 +1,9 @@
-import firebase from "firebase";
 import React from "react";
 import { useParams } from "react-router-dom";
 import { useAuth } from "../../context/auth.context";
-import { FolderType, useFolder } from "../../hooks/useFolder.hook";
+import { useFolder } from "../../hooks/useFolder.hook";
 import { AddFilesButton, AddFolderButton } from "../Buttons";
-import Folder from "../Folder";
+import FolderRenderer from "./FolderRenderer";
 
 const Dashboard: React.FC = () => {
   // get param from url
@@ -37,18 +36,13 @@ const Dashboard: React.FC = () => {
         </div>
 
         {/* render out folders */}
-        {state.folder && <> {(state.folder as any).name} </>}
-        {state.childFolders.length > 0 && (
-          <div className="my-8 text-gray-700">
-            <div className="flex items-center space-x-4 items-md-auto items-lg-auto">
-              {state.childFolders.map(
-                (folder: FolderType<firebase.firestore.DocumentData>) => (
-                  <Folder folder={folder} key={folder.id} />
-                )
-              )}
-            </div>
+        {state.folder && (
+          <div className="text-xl text-gray-800">
+            {" "}
+            {(state.folder as any).name}{" "}
           </div>
         )}
+        <FolderRenderer state={state} />
         {/* render out folders end */}
       </div>
     </React.Fragment>

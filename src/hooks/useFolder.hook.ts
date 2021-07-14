@@ -16,7 +16,7 @@ interface BaseFolderProps {
   folder?: FolderType<firebase.firestore.DocumentData> | null;
 }
 
-interface FolderState extends BaseFolderProps {
+export interface FolderState extends BaseFolderProps {
   childFolders: FolderType<firebase.firestore.DocumentData>[];
   childFiles: string[];
 }

@@ -5,6 +5,9 @@ interface DataBaseInterface {
   folders: firebase.firestore.CollectionReference<firebase.firestore.DocumentData>;
   files: firebase.firestore.CollectionReference<firebase.firestore.DocumentData>;
   getCurrentTimestamp: () => firebase.firestore.FieldValue;
+  formatDoc: (
+    doc: firebase.firestore.DocumentSnapshot<firebase.firestore.DocumentData>
+  ) => any;
 }
 
 const app = firebase.initializeApp({
@@ -34,6 +37,11 @@ export const database: DataBaseInterface = {
   folders: firestore.collection("folders"),
   files: firestore.collection("files"),
   getCurrentTimestamp: firebase.firestore.FieldValue.serverTimestamp,
+  formatDoc: function (
+    doc: firebase.firestore.DocumentSnapshot<firebase.firestore.DocumentData>
+  ) {
+    return { id: doc.id, ...doc.data() };
+  },
 };
 
 export default app;

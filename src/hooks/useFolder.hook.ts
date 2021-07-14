@@ -1,15 +1,19 @@
 import firebase from "firebase";
 import React from "react";
 import { Action, ActionType } from "../actions";
+import { database } from "../firebase";
 
 /* Note:
  *  The state object is defined as a constant in the reducer function.
  *  The state object is passed as a parameter to the component.
  */
 
-interface FolderState {
-  folderId: string | null;
-  folder: firebase.firestore.DocumentSnapshot | null;
+interface BaseFolderProps {
+  folderId?: string | null;
+  folder?: firebase.firestore.DocumentSnapshot | null;
+}
+
+interface FolderState extends BaseFolderProps {
   childFolders: string[];
   childFiles: string[];
 }
@@ -46,7 +50,7 @@ function reducer(state: FolderState, action: ActionType): FolderState {
 
 // defining useFolder hook as a function
 // @hook('useFolder')
-export function useFolder(folderId = null, folder = null): FolderState {
+export function useFolder({ folderId, folder }: BaseFolderProps): FolderState {
   const [state, dispatch] = React.useReducer(reducer, {
     folderId,
     folder,
@@ -63,12 +67,28 @@ export function useFolder(folderId = null, folder = null): FolderState {
   // it will help to update state on each folder change / modified
   React.useEffect(() => {
     // check if root folder
-    if (folderId === null) {
+    if (folderId == null) {
       return dispatch({
         type: Action.UPDATE_FOLDER,
         payload: { folder: ROOT_FOLDER },
       } as ActionType);
     }
+    // perform database call
+    database.folders
+      .doc("" + folderId)
+      .get()
+      .then((doc) => {
+        dispatch({
+          type: Action.UPDATE_FOLDER,
+          payload: { folder: database.formatDoc(doc) },
+        } as ActionType);
+      })
+      .catch(() => {
+        dispatch({
+          type: Action.UPDATE_FOLDER,
+          payload: { folder: ROOT_FOLDER },
+        } as ActionType);
+      });
   }, [folderId]);
 
   return state;

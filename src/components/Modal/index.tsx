@@ -1,6 +1,6 @@
 import firebase from "firebase";
 import React from "react";
-import { AlertIcon } from "../../Assets/Icons";
+import { InfoIcon } from "../../Assets/Icons";
 import { useAuth } from "../../context/auth.context";
 import { database } from "../../firebase";
 
@@ -11,7 +11,7 @@ interface ModalProps {
   title: string;
   shortDesc: string;
   type: ModalType;
-  currentFolder: firebase.firestore.DocumentSnapshot | null;
+  currentFolder: firebase.firestore.DocumentSnapshot | null | undefined;
 }
 
 const Modal: React.FC<ModalProps> = ({
@@ -21,6 +21,7 @@ const Modal: React.FC<ModalProps> = ({
   type,
   currentFolder,
 }: ModalProps): JSX.Element => {
+  if (currentFolder == null) return <> Loading... </>; // TODO: fix this
   const [inputValue, setInputValue] = React.useState<string | undefined>();
   const [error, setError] = React.useState<string>("");
 
@@ -56,7 +57,7 @@ const Modal: React.FC<ModalProps> = ({
       try {
         const onSuccess = database.folders.add({
           name: inputValue,
-          parentId: currentFolder.id,
+          parentId: currentFolder?.id,
           userId: currentUser?.uid,
           // path,
           createdAt: database.getCurrentTimestamp(),
@@ -93,7 +94,7 @@ const Modal: React.FC<ModalProps> = ({
             <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
               <div className="sm:flex sm:items-start">
                 <div className="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-gray-100 sm:mx-0 sm:h-10 sm:w-10">
-                  <AlertIcon />
+                  <InfoIcon />
                 </div>
                 <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                   <h3
@@ -163,6 +164,6 @@ function isInputValueIsEmptyThrowError(
       `${type === "ADD_FOLDER" ? "Folder" : "File"} name cannot be blank!`
     );
   } else if (isPatternIncorrect) {
-    throw new Error("It should not contains any special symbols!");
+    throw new Error("It should not contains any special symbols except dash!");
   }
 }

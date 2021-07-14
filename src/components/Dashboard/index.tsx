@@ -5,9 +5,8 @@ import { AddFilesButton, AddFolderButton } from "../Buttons";
 
 const Dashboard: React.FC = () => {
   const { currentUser } = useAuth();
-  const state = useFolder();
-
-  console.log({ state });
+  const state = useFolder({ folderId: "iOW7eCrLkpLsjJFnK4Rk" });
+  console.log(state);
 
   if (currentUser === null) return <>Loading...</>;
   return (

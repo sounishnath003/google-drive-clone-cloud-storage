@@ -1,5 +1,6 @@
 import firebase from "firebase";
 import React from "react";
+import { Link } from "react-router-dom";
 import { FolderType, ROOT_FOLDER } from "../../hooks/useFolder.hook";
 
 interface FolderBreadCrumbsProps {
@@ -12,18 +13,25 @@ const FolderBreadCrumbs: React.FC<FolderBreadCrumbsProps> = ({
   // getting folder paths dynamically
   const paths =
     currentFolder && currentFolder.path
-    ? [...ROOT_FOLDER.path].concat(...currentFolder.path)
-    : [];
+      ? [...ROOT_FOLDER.path].concat(...currentFolder.path)
+      : [];
 
-    console.log(paths);
-    
-    
   return (
-    <div>
+    <div className="flex flex-row space-x-3 justify-start items-center">
+      {paths.map((folder: { name: string; id: string }) => (
+        <Link
+          to={`/folder/${folder.id}`}
+          key={folder.id}
+          className="text text-gray-700 hover:text-blue-600"
+        >
+          {" "}
+          {folder.name}
+          {"  "} /
+        </Link>
+      ))}
       {currentFolder && (
         <div className="text text-gray-700"> {currentFolder.name} </div>
       )}
-      {JSON.stringify(paths)}
     </div>
   );
 };

@@ -28,7 +28,7 @@ export function useAuth(): AuthContextInterface {
 }
 
 interface AuthProps {
-  children: any;
+  children: React.ReactChild | React.ReactChildren;
 }
 
 const AuthProvider: React.FC<AuthProps> = ({ children }: AuthProps) => {

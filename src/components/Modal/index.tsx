@@ -3,7 +3,7 @@ import React from "react";
 import { InfoIcon } from "../../Assets/Icons";
 import { useAuth } from "../../context/auth.context";
 import { database } from "../../firebase";
-import { FolderType } from "../../hooks/useFolder.hook";
+import { FolderType, ROOT_FOLDER } from "../../hooks/useFolder.hook";
 
 type ModalType = "ADD_FOLDER" | "ADD_FILE";
 
@@ -56,9 +56,12 @@ const Modal: React.FC<ModalProps> = ({
   > {
     return new Promise((resolve, reject) => {
       try {
+        
         const path = [...currentFolder?.path];
-        if (currentFolder?.name !== "Root")
-          path.push({ name: currentFolder?.name, id: currentFolder?.id });
+        if (currentFolder != null && currentFolder !== ROOT_FOLDER ) {
+          path.push({name: (currentFolder as any).name , id: (currentFolder as any).id});
+        }
+        
         const onSuccess = database.folders.add({
           name: inputValue,
           parentId: currentFolder?.id,

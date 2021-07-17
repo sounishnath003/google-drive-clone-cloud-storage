@@ -56,11 +56,14 @@ const Modal: React.FC<ModalProps> = ({
   > {
     return new Promise((resolve, reject) => {
       try {
+        const path = [...currentFolder?.path];
+        if (currentFolder?.name !== "Root")
+          path.push({ name: currentFolder?.name, id: currentFolder?.id });
         const onSuccess = database.folders.add({
           name: inputValue,
           parentId: currentFolder?.id,
           userId: currentUser?.uid,
-          // path,
+          path,
           createdAt: database.getCurrentTimestamp(),
         });
         resolve(onSuccess);

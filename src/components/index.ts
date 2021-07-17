@@ -1,6 +1,7 @@
 import Error from "./Alert/Error";
 import Success from "./Alert/Sucess";
 import AuthHome from "./Auth/AuthHome";
+import FolderBreadCrumbs from "./BreadCrumbs";
 import AddFolderButton from "./Buttons/AddFolderButton";
 import Container from "./Container";
 import Dashboard from "./Dashboard";
@@ -18,4 +19,5 @@ export {
   AddFolderButton,
   Modal,
   Folder,
+  FolderBreadCrumbs,
 };

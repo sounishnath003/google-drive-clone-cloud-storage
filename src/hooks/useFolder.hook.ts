@@ -22,7 +22,7 @@ export interface FolderState extends BaseFolderProps {
 }
 
 // Supertisiously define a `Root Folder`
-const ROOT_FOLDER = {
+export const ROOT_FOLDER = {
   id: null,
   name: "Root",
   path: [],
@@ -47,8 +47,6 @@ function reducer(state: FolderState, action: ActionType): FolderState {
       };
 
     case Action.SET_CHILD_FOLDERS:
-      console.log(action.payload);
-
       return {
         ...state,
         childFolders: action.payload.childFolders,

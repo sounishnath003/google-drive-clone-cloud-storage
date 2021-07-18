@@ -18,7 +18,7 @@ const ButtonBars: React.FC<ButtonBarsProps> = ({
       </div>
       <div className="m-auto">
         {" "}
-        <AddFilesButton />{" "}
+        <AddFilesButton currentFolder={state.folder} />{" "}
       </div>
     </div>
   );

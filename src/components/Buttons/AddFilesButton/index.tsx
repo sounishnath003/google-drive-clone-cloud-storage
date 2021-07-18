@@ -1,20 +1,69 @@
 import React from "react";
+import { ButtonProps } from "..";
 import { FileTextIcon } from "../../../Assets/Icons";
-import Modal from "../../Modal";
+import { useAuth } from "../../../context/auth.context";
+import { database, storage } from "../../../firebase";
+import { ROOT_FOLDER } from "../../../hooks/useFolder.hook";
 
-const AddFilesButton: React.FC = () => {
-  const [showModal, setModal] = React.useState(false);
+type FileUploadEvent = React.ChangeEvent<HTMLInputElement>;
+
+const AddFilesButton: React.FC<ButtonProps> = ({
+  currentFolder,
+}: ButtonProps) => {
+  if (ROOT_FOLDER == null) return <></>;
+  const { currentUser } = useAuth();
+
+  async function handleFileUpload(e: FileUploadEvent) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    const files = e.target.files;
+    if (files !== null && files.length > 0 && typeof ROOT_FOLDER === "object") {
+      const file: File = files[0];
+      const parentPath: string =
+        ((currentFolder as any)?.path).length > 0
+          ? `${(currentFolder as any)?.path.join("/")}`
+          : "";
+
+      const filePath: string =
+        currentFolder === ROOT_FOLDER
+          ? `${parentPath}/${file.name}`
+          : `${parentPath}/${(currentFolder as any)?.name}`;
+
+      const uploader = storage
+        .ref(`/files/${currentUser?.uid}/${filePath}`)
+        .put(file);
+
+      uploader.on(
+        "state_changed",
+        (snapshot) => {},
+        () => {},
+        () => {
+          uploader.snapshot.ref.getDownloadURL().then((url: string) => {
+            database.files.add({
+              url,
+              name: file.name,
+              path: filePath,
+              createdAt: database.getCurrentTimestamp(),
+              folderId: currentFolder?.id,
+              userId: currentUser?.uid,
+            });
+          });
+        }
+      );
+    } else {
+      window.location.replace("/");
+    }
+  }
+
   return (
     <React.Fragment>
-      {showModal && (
-        <Modal
-          title={"Upload file"}
-          shortDesc={"Please enter the name of the file you want to create."}
-          type={"ADD_FILE"}
-          modalShowFunc={setModal}
+      <div className="button-upload">
+        <input
+          type="file"
+          className="opacity-0 absolute"
+          onChange={handleFileUpload}
         />
-      )}
-      <div onClick={() => setModal(true)} className="button-upload">
         <div className="m-auto">
           {" "}
           <FileTextIcon color="blue" size={22} />{" "}

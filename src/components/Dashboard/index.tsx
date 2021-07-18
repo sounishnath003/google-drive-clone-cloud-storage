@@ -4,6 +4,7 @@ import { useAuth } from "../../context/auth.context";
 import { useFolder } from "../../hooks/useFolder.hook";
 import FolderBreadCrumbs from "../BreadCrumbs";
 import ButtonBars from "./ButtonBars";
+import FilesRenderer from "./FIlesRenderer";
 import FolderRenderer from "./FolderRenderer";
 
 const Dashboard: React.FC = () => {
@@ -29,6 +30,7 @@ const Dashboard: React.FC = () => {
         <ButtonBars state={state} />
         <FolderBreadCrumbs currentFolder={state.folder} />
         <FolderRenderer state={state} />
+        <FilesRenderer state={state} />
         {/* render out folders end */}
       </div>
     </React.Fragment>

@@ -53,6 +53,12 @@ function reducer(state: FolderState, action: ActionType): FolderState {
         childFolders: action.payload.childFolders,
       };
 
+      case Action.SET_CHILD_FILES: 
+      return {
+        ...state,
+        childFiles: action.payload.childFiles,
+      };
+
     default:
       return state;
   }
@@ -118,6 +124,26 @@ export function useFolder({ folderId, folder }: BaseFolderProps): FolderState {
           dispatch({
             type: Action.SET_CHILD_FOLDERS,
             payload: { childFolders: snapShot.docs.map(database.formatDoc) },
+          } as ActionType);
+        }
+      );
+
+    return () => onCleanup(); // return the onClean function to be called on unmount
+  }, [folderId, currentUser]);
+
+
+  // responsible for setting child files correctly!
+  React.useEffect(() => {
+    const onCleanup = database.files
+      .where("folderId", "==", folderId)
+      .where("userId", "==", currentUser?.uid)
+      .onSnapshot(
+        (
+          snapShot: firebase.firestore.QuerySnapshot<firebase.firestore.DocumentData>
+        ) => {
+          dispatch({
+            type: Action.SET_CHILD_FILES,
+            payload: { childFiles: snapShot.docs.map(database.formatDoc) },
           } as ActionType);
         }
       );

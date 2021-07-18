@@ -12,8 +12,8 @@ const FolderBreadCrumbs: React.FC<FolderBreadCrumbsProps> = ({
 }: FolderBreadCrumbsProps): JSX.Element => {
   // getting folder paths dynamically
   const paths =
-    currentFolder && currentFolder.path
-      ? [...ROOT_FOLDER.path].concat(...currentFolder.path)
+    currentFolder && (currentFolder as any).path
+      ? [...ROOT_FOLDER.path].concat(...(currentFolder as any).path)
       : [];
 
   return (
@@ -30,7 +30,7 @@ const FolderBreadCrumbs: React.FC<FolderBreadCrumbsProps> = ({
         </Link>
       ))}
       {currentFolder && (
-        <div className="text text-gray-700"> {currentFolder.name} </div>
+        <div className="text text-gray-700"> {(currentFolder as any).name} </div>
       )}
     </div>
   );

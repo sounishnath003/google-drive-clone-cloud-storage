@@ -3,6 +3,7 @@ import React from "react";
 import { Action, ActionType } from "../actions";
 import { useAuth } from "../context/auth.context";
 import { database } from "../firebase";
+import { offlineDetector } from "./offline-detector";
 
 /* Note:
  *  The state object is defined as a constant in the reducer function.
@@ -60,6 +61,7 @@ function reducer(state: FolderState, action: ActionType): FolderState {
 // defining useFolder hook as a function
 // @hook('useFolder')
 export function useFolder({ folderId, folder }: BaseFolderProps): FolderState {
+  offlineDetector();
   const [state, dispatch] = React.useReducer(reducer, {
     folderId,
     folder,
